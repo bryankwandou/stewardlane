@@ -40,6 +40,13 @@ export async function anchorHashWithWallet(hash: string) {
   );
   const { signature } = await provider.signAndSendTransaction(transaction);
   await connection.confirmTransaction({ signature, blockhash, lastValidBlockHeight }, "confirmed");
+  const verificationResponse = await fetch("/api/anchor", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ signature, hash }),
+  });
+  const verification = await verificationResponse.json();
+  if (!verificationResponse.ok || !verification.verified) throw new Error(verification.error ?? "The devnet proof could not be verified.");
   return signature;
 }
 

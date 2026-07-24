@@ -48,3 +48,8 @@ next-env.d.ts
 _zustand/
 .vercel/
 
+
+# Local smoke scripts
+.fund.cjs
+.smoke.cjs
+
